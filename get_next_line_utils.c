@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chantoux329 <chantoux329@student.42.fr>    +#+  +:+       +#+        */
+/*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:56:58 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/06/09 19:02:11 by chantoux329      ###   ########.fr       */
+/*   Updated: 2023/06/29 19:31:01 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,19 @@ char	*ft_strdup(const char *s)
 	x = 0;
 	i = 0;
 	x = ft_strlen(s);
+	if (s == NULL){
+		printf("coucou");
+		}
 	dup = (char *)malloc((x + 1) * sizeof(char));
 	if (!dup)
 		return (NULL);
+		
 	while (s[i] != '\0' && (i < x))
 	{
 		dup[i] = s[i];
 		i++;
 	}
+	printf("\n dup apres tout : %s\n", dup);
 	dup[i] = '\0';
 	return (dup);
 }

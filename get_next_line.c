@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chantoux329 <chantoux329@student.42.fr>    +#+  +:+       +#+        */
+/*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:57:03 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/06/10 17:50:10 by chantoux329      ###   ########.fr       */
+/*   Updated: 2023/06/29 19:02:33 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ char	*make_line(char *str)
 			printf("ma");
 		}
 		
-	printf("\n size : %d\n", size);
+	// printf("\n size : %d\n", size);
 	string = malloc(sizeof(char) *((size) + 1));
-	printf("\n size string1 : %zu\n", ft_strlen(string));
+	// printf("\n size string1 : %zu\n", ft_strlen(string));
 	if (!string)
 		return NULL;	
 	while (i < size)
 	{
 		string[i] = str[i];
-		printf("\n size string2 : %zu\n", ft_strlen(string));
+		// printf("\n size string2 : %zu\n", ft_strlen(string));
 		i++;
 	}
-	printf("\n size string3 : %zu\n", ft_strlen(string));
+	// printf("\n size string3 : %zu\n", ft_strlen(string));
 	string[i] = '\0';
-	printf("\n size string 4: %zu\n", ft_strlen(string));
-	printf("\n string : %s\n", string);
+	// printf("\n size string 4: %zu\n", ft_strlen(string));
+	// printf("\n string : %s\n", string);
 	return (string);
 }
 
@@ -90,18 +90,21 @@ char	*get_next_line(int fd)
 		temp = search_end_line(buffer);
 	}
 	line = make_line(stock_read);
-	printf("\n line apres make line : %s\n", line);
-	printf("\n stkre apres make line : %s\n", stock_read);
+	// printf("\n line apres make line : %s\n", line);
+	// printf("\n stkre apres make line : %s\n", stock_read);
 	temp = search_end_line(stock_read );
 	printf("\n temp ap : %s\n", temp);
-	printf("\nstockread 1 : %s\n", stock_read);
-	printf("\n line apres line : %s\n", line);
+	// printf("\nstockread 1 : %s\n", stock_read);
+	// printf("\n line apres line : %s\n", line);
 	if (temp == NULL)
 	{
-		free(stock_read);
+		// free(stock_read);
+		// free(temp);
 		stock_read = NULL;
 	}
 	printf("\n line apres tout : %s\n", line);
+	printf("\n s_r apres tout : %s\n", stock_read);
+	printf("\n temp apres tout : %s\n", temp);
 	stock_read = ft_strdup(temp);
 	printf("\nstockread 2 : %s\n", stock_read);
 	return (line);
@@ -110,23 +113,23 @@ char	*get_next_line(int fd)
 int	main()
 {
 	int	fd = open("text.txt", O_RDONLY);
-	// char* line = NULL;
-	// int i = 1;
-	// int ret = 1;
-	// while (ret  > 0)
-	// {
-	// 	line = get_next_line(fd);
-	// 	printf("%der line : %s\n", i, line);
-	// 	free(line);
-	// 	i++;
-	// }
+	char* line = NULL;
+	int i = 1;
+	int ret = 1;
+	while (ret  > 0)
+	{
+		line = get_next_line(fd);
+		printf("%der line : %s\n", i, line);
+		free(line);
+		i++;
+	}
 	
 	
 
-	fd = open("text.txt", O_RDONLY);
-	printf("\nfirst: %s \n", get_next_line(fd));
-	printf("\nsecond: %s \n", get_next_line(fd));
-	printf("\nthird: %s \n", get_next_line(fd));
+	// fd = open("text.txt", O_RDONLY);
+	// printf("\nfirst: %s \n", get_next_line(fd));
+	// printf("\nsecond: %s \n", get_next_line(fd));
+	// printf("\nthird: %s \n", get_next_line(fd));
 	// printf("\nfourth: %s \n", get_next_line(fd));
 	// printf("\nfifth: %s \n", get_next_line(fd));
 	// printf("\n6: %s \n", get_next_line(fd));
