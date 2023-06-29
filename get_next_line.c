@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:57:03 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/06/29 19:02:33 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:54:17 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*temp;
-	size_t		nb_read;
+	int			nb_read;
 	static char	*stock_read;
 	char		buffer[BUFFER_SIZE + 1];
 
