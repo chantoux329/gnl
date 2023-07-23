@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:56:58 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/06/29 19:31:01 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:50:50 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
-	
+
 	if (!s)
-		return 0;
+		return (0);
 	i = 0;
 	while (s[i] != '\0')
 		i++;
@@ -33,47 +33,53 @@ char	*ft_strdup(const char *s)
 	x = 0;
 	i = 0;
 	x = ft_strlen(s);
-	if (s == NULL){
-		printf("coucou");
-		}
 	dup = (char *)malloc((x + 1) * sizeof(char));
 	if (!dup)
 		return (NULL);
-		
-	while (s[i] != '\0' && (i < x))
+	if (s)
 	{
-		dup[i] = s[i];
-		i++;
+		while (s[i] != '\0' && (i < x))
+		{
+			dup[i] = s[i];
+			i++;
+		}
 	}
-	printf("\n dup apres tout : %s\n", dup);
 	dup[i] = '\0';
+	// free ((void *)s);
 	return (dup);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
-	char			*str;
-	unsigned int	i;
-	unsigned int	j;
+	char	*str;
+	size_t	len_s1;
+	size_t	len_s2;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 || !s2)
+	if (!s2)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!s1)
+		s1 = ft_strdup("");
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	str = (char *)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
 	if (!str)
 		return (NULL);
 	i = 0;
-	j = 0;
-	while (s1[i] != '\0' && i < ft_strlen(s1))
+	while (i < len_s1)
 	{
 		str[i] = s1[i];
 		i++;
 	}
-	while (s2[j] != '\0' && j < ft_strlen(s2))
+	j = 0;
+	while (j < len_s2)
 	{
 		str[i + j] = s2[j];
 		j++;
 	}
 	str[i + j] = '\0';
+	free(s1);
 	return (str);
 }
 

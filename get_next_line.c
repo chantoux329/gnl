@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:57:03 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/06/29 19:54:17 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:51:05 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,24 @@ char	*make_line(char *str)
 	char	*temp;
 	char	*string;
 
+	if (ft_strlen(str) == 0)
+		return (NULL);
 	i = 0;
 	temp = search_end_line(str);
 	if (temp == NULL)
-		{
 		size = ft_strlen(str);
-		printf("mu");	
-		}
-	else	
-		{size = ft_strlen(str) - ft_strlen(temp);
-			printf("ma");
-		}
-		
-	// printf("\n size : %d\n", size);
+	else
+		size = ft_strlen(str) - ft_strlen(temp);
+
 	string = malloc(sizeof(char) *((size) + 1));
-	// printf("\n size string1 : %zu\n", ft_strlen(string));
 	if (!string)
-		return NULL;	
+		return (NULL);
 	while (i < size)
 	{
 		string[i] = str[i];
-		// printf("\n size string2 : %zu\n", ft_strlen(string));
 		i++;
 	}
-	// printf("\n size string3 : %zu\n", ft_strlen(string));
 	string[i] = '\0';
-	// printf("\n size string 4: %zu\n", ft_strlen(string));
-	// printf("\n string : %s\n", string);
 	return (string);
 }
 
@@ -59,7 +50,6 @@ char	*search_end_line(char *string)
 		return (NULL);
 	else
 		str = ft_strchr(string, c);
-	// free ((void *)string);
 	return (str);
 }
 
@@ -69,16 +59,17 @@ char	*get_next_line(int fd)
 	char		*temp;
 	int			nb_read;
 	static char	*stock_read;
-	char		buffer[BUFFER_SIZE + 1];
+	// static char	stock_read[BUFFER_SIZE + 1] = "";
+	char		*buffer;
 
-	if (BUFFER_SIZE <= 0 || read(fd, buffer, 0) == -1)
-		return NULL;
-	if (!stock_read)
-			stock_read = ft_strdup("\0");
-	// buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	// if (!buffer)
-	// 	return (NULL);
-	temp = search_end_line(buffer);
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
+	// if (!stock_read)
+	// 	stock_read = ft_strdup("\0");
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	temp = NULL;
 	nb_read = 1;
 	while (temp == NULL && nb_read > 0)
 	{
@@ -86,43 +77,61 @@ char	*get_next_line(int fd)
 		if (nb_read < 0)
 			return (NULL);
 		buffer[nb_read] = '\0';
+		//temp = stock_read; //ici pour pouvoir free mon ancien stockread inutile
 		stock_read = ft_strjoin(stock_read, buffer);
+		//free(temp); //pour free mon vieux stock read
+		if (!stock_read)
+			return (NULL);
 		temp = search_end_line(buffer);
 	}
+	free(buffer);
 	line = make_line(stock_read);
-	// printf("\n line apres make line : %s\n", line);
-	// printf("\n stkre apres make line : %s\n", stock_read);
-	temp = search_end_line(stock_read );
-	printf("\n temp ap : %s\n", temp);
-	// printf("\nstockread 1 : %s\n", stock_read);
-	// printf("\n line apres line : %s\n", line);
-	if (temp == NULL)
+	if (line == NULL)
+		free(line);
+	if (line)
 	{
-		// free(stock_read);
-		// free(temp);
-		stock_read = NULL;
+		stock_read = search_end_line(stock_read);
 	}
-	printf("\n line apres tout : %s\n", line);
-	printf("\n s_r apres tout : %s\n", stock_read);
-	printf("\n temp apres tout : %s\n", temp);
-	stock_read = ft_strdup(temp);
-	printf("\nstockread 2 : %s\n", stock_read);
+	else
+		free(temp);
+	//if (!temp)
+	//	free(stock_read);
+	
+
 	return (line);
 }
 
 int	main()
 {
-	int	fd = open("text.txt", O_RDONLY);
+		int	fd = open("text.txt", O_RDONLY);
 	char* line = NULL;
-	int i = 1;
-	int ret = 1;
-	while (ret  > 0)
-	{
-		line = get_next_line(fd);
-		printf("%der line : %s\n", i, line);
+	int i = 0;
+//	while ((line = get_next_line(fd)))
+//	{
+//	 	printf("STR = %s", line);
+//	 	free(line);
+//	 }
+	 while (i < 15)
+	 {
+	 	line = get_next_line(fd);
+	 	printf("STR = %s", line);
 		free(line);
-		i++;
+ 		i++;
 	}
+	printf("\n");
+	close(fd);
+	return (0);
+	// int	fd = open("text.txt", O_RDONLY);
+	// char* line = NULL;
+	// int i = 1;
+	// int ret = 1;
+	// while (ret  > 0)
+	// {
+	// 	line = get_next_line(fd);
+	// 	printf("%der line : %s\n", i, line);
+	// 	free(line);
+	// 	i++;
+	// }
 	
 	
 
@@ -142,5 +151,5 @@ int	main()
 	// close(fd);
 
 	
-	return (0);
+	// return (0);
 }
