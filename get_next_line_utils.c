@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:56:58 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/07/23 22:50:50 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/07/25 00:05:29 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*ft_strdup(const char *s)
 		}
 	}
 	dup[i] = '\0';
-	// free ((void *)s);
 	return (dup);
 }
 
@@ -104,4 +103,25 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s + i + 1);
 	}
 	return (NULL);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	if (size && (nmemb > SIZE_MAX / size))
+		return (NULL);
+	str = malloc(nmemb * size);
+	if (!str)
+		return (NULL);
+	while (i < (nmemb * size))
+	{
+		str[i] = 0;
+		i++;
+	}
+	return ((void *)str);
 }
