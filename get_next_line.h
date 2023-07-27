@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:57:06 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/07/25 00:05:37 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:08:38 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 # include <stdarg.h>
 # include <fcntl.h>
 
-#ifndef BUFFER_SIZE
+# ifndef BUFFER_SIZE
 
-# define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1
 
-#endif
+# endif
 
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s);

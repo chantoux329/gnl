@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:56:58 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/07/25 00:05:29 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:09:21 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,32 +51,26 @@ char	*ft_strdup(const char *s)
 char	*ft_strjoin(char *s1, char const *s2)
 {
 	char	*str;
-	size_t	len_s1;
-	size_t	len_s2;
 	size_t	i;
 	size_t	j;
+	size_t	len1;
+	size_t	len2;
 
 	if (!s2)
 		return (NULL);
 	if (!s1)
 		s1 = ft_strdup("");
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	str = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!str)
 		return (NULL);
-	i = 0;
-	while (i < len_s1)
-	{
+	i = -1;
+	while (++i < len1)
 		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (j < len_s2)
-	{
+	j = -1;
+	while (++j < len2)
 		str[i + j] = s2[j];
-		j++;
-	}
 	str[i + j] = '\0';
 	free(s1);
 	return (str);
@@ -90,18 +84,12 @@ char	*ft_strchr(const char *s, int c)
 	while (s[i] != '\0')
 	{
 		if (s[i] != (char)c)
-		{
 			i++;
-		}
 		else if (s[i] == (char)c)
-		{
 			return ((char *)s + i + 1);
-		}
 	}
 	if (s[i] == c)
-	{
 		return ((char *)s + i + 1);
-	}
 	return (NULL);
 }
 
@@ -119,9 +107,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if (!str)
 		return (NULL);
 	while (i < (nmemb * size))
-	{
-		str[i] = 0;
-		i++;
-	}
+		str[i++] = 0;
 	return ((void *)str);
 }

@@ -6,7 +6,7 @@
 /*   By: chkala-l <chkala-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:57:03 by chkala-l          #+#    #+#             */
-/*   Updated: 2023/07/25 00:05:19 by chkala-l         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:09:07 by chkala-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ char	*make_line(char *str)
 		return (NULL);
 	i = 0;
 	temp = search_end_line(str);
-	if (temp == NULL)
-		size = ft_strlen(str);
-	else
-		size = ft_strlen(str) - ft_strlen(temp);
-
-	string = ft_calloc(sizeof(char), ((size) + 1));
+	size = ft_strlen(str);
+	if (temp != NULL)
+		size -= ft_strlen(temp);
+	string = malloc(sizeof(char) * ((size) + 1));
 	if (!string)
 		return (NULL);
 	while (i < size)
@@ -36,6 +34,7 @@ char	*make_line(char *str)
 		string[i] = str[i];
 		i++;
 	}
+	string[i] = 0;
 	return (string);
 }
 
@@ -47,21 +46,18 @@ char	*copy_line(char *string)
 
 	i = 0;
 	while (string && string[i] && string[i] != '\n')
-	{
 		i++;
-	}
 	if (!string || !string[i])
-	{
-		free(string);
+		return (free(string), NULL);
+	str = malloc(ft_strlen(string) - i);
+	if (!str)
 		return (NULL);
-	}	
-	str = ft_calloc(ft_strlen(string) - i, 1);
 	j = 0;
 	i++;
 	while (string && string[i])
 		str[j++] = string[i++];
-	free(string);
-	return (str);
+	str[j] = '\0';
+	return (free(string), str);
 }
 
 char	*search_end_line(char *string)
@@ -79,17 +75,14 @@ char	*search_end_line(char *string)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	int			nb_read;
-	static char	*stock_read;
+	static char	*stock = NULL;
 	char		*buffer;
+	int			nb_read;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	if (!stock_read)
-		stock_read = ft_strdup("");
-	buffer = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer[0] = '\0';
 	nb_read = 1;
 	while (!search_end_line(buffer) && nb_read > 0)
 	{
@@ -97,32 +90,33 @@ char	*get_next_line(int fd)
 		if (nb_read < 0)
 			return (free(buffer), NULL);
 		buffer[nb_read] = '\0';
-		stock_read = ft_strjoin(stock_read, buffer);
-		if (!stock_read)
-			return (NULL);
+		stock = ft_strjoin(stock, buffer);
+		if (!stock)
+			return (free(buffer), NULL);
 	}
 	free(buffer);
-	line = make_line(stock_read);
-	stock_read = copy_line(stock_read);
-	return (line);
+	return (line = make_line(stock), stock = copy_line(stock), line);
 }
 
 // int	main()
 // {
-// 		int	fd = open("text.txt", O_RDONLY);
-// 	char* line = NULL;
-// 	int i = 0;
-// 	 while (1)
-// 	 {
-// 	 	line = get_next_line(fd);
-// 	 	if (!line)
+// 	int		fd;
+// 	int		i;
+// 	char	*line;
+
+// 	fd = open("text.txt", O_RDONLY);
+// 	line = NULL;
+// 	i = 0;
+// 	while (1)
+// 	{
+// 		line = get_next_line(fd);
+// 		if (!line)
 // 			break ;
 // 		printf("STR = %s", line);
 // 		free(line);
-//  		i++;
+// 		i++;
 // 	}
 // 	line = get_next_line(fd);
-	
 // 	printf("\n");
 // 	close(fd);
 // 	return (0);
